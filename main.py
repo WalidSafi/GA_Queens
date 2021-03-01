@@ -35,13 +35,14 @@ def generateBoards(population):
         size = (8,8)
         board = np.zeros(size, dtype=int)
 
-        #makes the board, takes the value of the chromo some at first index, puts in it that column on the board, and goes the next
+        #makes the board, takes the value of the chromosome at first index, puts in it that column on the board, and goes the next
         #Since only 1 queen is on the column we can just go 1-8 on rows
 
         for x in range(0, len(chromosome)):
             #print("The gene value of the chromosome is : " + str((chromosome[x]) -1 ))
             board[(chromosome[x] -1)][x] = 1
-
+           
+        print(x) #this prints out 7 the whole time and idk why, but it seems to be generating the correct board for each chromosome
         print("\n")
         print(chromosome)
         print(board)
