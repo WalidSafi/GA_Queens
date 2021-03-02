@@ -1,6 +1,7 @@
 import random
 import numpy as np
 
+generation = 0;
 
 def generateInitialPopulation():
 
@@ -22,6 +23,7 @@ def generateInitialPopulation():
 
     generateBoards(population)
 
+
 def generateBoards(population):
 
     #Loops 10 times (size of population)
@@ -42,35 +44,75 @@ def generateBoards(population):
             #print("The gene value of the chromosome is : " + str((chromosome[x]) -1 ))
             board[(chromosome[x] -1)][x] = 1
 
-        print("\n")
-        print(chromosome)
-        print(board)
+        #print(chromosome)
+        #print(board)
+
+        fitness(chromosome,board)
 
     #for x in range(0, 10):
         #print(population[x])
+
+def fitness(chromosome, board):
+    print("fitness")
+
 
 def crossover(): #is this was the crossover function is meant to do?
 
     print("crossover")
 
-    population1 = [1,2,3,4,5,6,7,8]
-    population2 = [8,7,6,5,4,3,2,1]
+    c1 = [7,3,1,8,3,4,5,6]
+    c2 = [1,8,3,2,7,5,5,2]
 
-    split = 4
+    split = random.randint(0,7)
+    inverse = 7 - split
 
-    popone = population1[:split]
-    poptwo = population2[split:]
+    FirstHalf = c1[:split]
+    SecondHalf = c2[split:]
 
-    print(popone)
-    print(poptwo)
+    child_one = FirstHalf + SecondHalf
 
-    chromosome = popone + poptwo
-    print(chromosome)
+    FirstHalf = c2[:inverse]
+    SecondHalf = c1[inverse:]
 
-def mutation():
+    child_two = FirstHalf + SecondHalf
 
-    mutationchance = 0.10
-    print("Mutation")
+    print(child_one)
+    print(child_two)
+
+    for x in range(0,20):
+
+        mutationoptions = [0,1] #0 for no mutaion, 1 for mutation
+        chance = [0.8,0.2]
+        choice = random.choices(mutationoptions,chance)
+
+        if choice[0] == 1:
+
+            print("Mutated")
+            child_one = mutation(child_one)
+            child_two = mutation(child_two)
+
+            print(child_one)
+            print(child_two)
+
+        #print(choice)
+
+
+
+def mutation(child):
+
+    swapIndex = random.randint(0, 7)
+    inverse = 7 - swapIndex
+
+    mutated = child
+
+    print("Swap Index: " + str(swapIndex))
+    print("Inverse: " + str(inverse))
+
+    temp = mutated[swapIndex]
+    mutated[swapIndex] = mutated[inverse]
+    mutated[inverse] = temp
+
+    return mutated;
 
 if __name__ == '__main__':
 
