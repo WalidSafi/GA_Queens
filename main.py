@@ -3,7 +3,7 @@ from collections import namedtuple
 
 class Chromosome:
     def __init__(self):
-        self.queenPositions = [randint(0, 3) for i in range(4)] # Array of 8 random integers
+        self.queenPositions = [randint(0, 7) for i in range(8)] # Array of 8 random integers
     
     # Returns the horizontal length of the board
     # Note: It is assumed that the board is square
@@ -22,6 +22,20 @@ class Chromosome:
 class Fitness:
     def __init__(self, chromosome): 
         self.chromosome = chromosome
+        self.collisionCount = self.detectAttacks()
+
+    # Returns the fitness score, which is the sum of all attacks
+    def getFitness(self): 
+        return self.collisionCount
+    
+    # Determines how many attacks are possible for each of the queens on the board.
+    # Returns the sum of all collisions.
+    def detectAttacks(self):
+        collisionCount = 0
+        for queenColumn in range(len(self.chromosome.queenPositions)):
+            collisionCount = collisionCount + self.detectHorizontalAttacks(queenColumn)
+            collisionCount = collisionCount + self.detectDiagonalAttacks(queenColumn)
+        return collisionCount
 
     # Determines how many horizontal attacks this individual queen can make. 
     # Returns the number of possible horizontal attacks.
@@ -79,8 +93,7 @@ class Fitness:
 
             searchPosition.x = searchPosition.x + 1
             searchPosition.y = searchPosition.y - 1
-        
-        print(collisionCount)
+        return collisionCount
 
 
 # Represents x, y positions on the board
@@ -109,4 +122,4 @@ class Runner:
 c = Chromosome()
 print(c)
 f = Fitness(c)
-print(f.detectDiagonalAttacks(1))
+print(f.getFitness())
