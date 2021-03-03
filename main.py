@@ -126,7 +126,7 @@ class Population:
         self.mateCount = int(size / 2) # The number of chromosomes that should mate
 
     def generateInitialPopulation(self, size):
-        self.population = [Chromosome() for i in range(size)] # Array of 8 random chromosomes
+        self.population = [Chromosome() for i in range(size)] # Array of random chromosomes
     
     def computeProbabilityOfBeingChosen(self):
         fitnessSum = 0 # Sum of all the fitness values in the population
@@ -146,9 +146,14 @@ class Population:
             c = self.crossover(pair)
             children.append(c[0])
             children.append(c[1])
-        self.mutate(children)
+        # Generate mutations in our beloved children.
+        children = self.mutate(children)
 
-        # Generate mutations
+        # Update population with new values
+        self.population = []
+        for child in children:
+            self.population.append(Chromosome(child))
+        
     
     def mutate(self, children):
         mutateProbability = 10 # Mutatation probability in percent
@@ -213,4 +218,6 @@ class Runner:
 #     # f = Fitness(c)
 #     # print("Fitness: ", f.getFitness())
 p = Population(10)
+print(p.population)
 p.mate()
+print(p.population)
