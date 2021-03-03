@@ -2,8 +2,11 @@ from random import randint
 from collections import namedtuple
 
 class Chromosome:
-    def __init__(self):
-        self.queenPositions = [randint(0, 7) for i in range(8)] # Array of 8 random integers
+    def __init__(self, value=None):
+        if (value is None):
+            self.queenPositions = [randint(0, 3) for i in range(4)] # Array of 4 random integers
+        else:
+            self.queenPositions = value
     
     # Returns the horizontal length of the board
     # Note: It is assumed that the board is square
@@ -62,7 +65,9 @@ class Fitness:
         searchPosition = Position(masterQueenPosition.x, masterQueenPosition.y) # Reset search position
         while(searchPosition.x < self.chromosome.boardLength() and searchPosition.y < self.chromosome.boardHeight()):
             if(self.chromosome.queenPositions[searchPosition.x] == searchPosition.y):
-                collisionCount = collisionCount + 1
+                # Check that searchPosition is different from masterQueenPosition
+                if((searchPosition.x == masterQueenPosition.x and searchPosition.y == masterQueenPosition.y) is False):
+                    collisionCount = collisionCount + 1
 
             searchPosition.x = searchPosition.x + 1
             searchPosition.y = searchPosition.y + 1
@@ -71,7 +76,9 @@ class Fitness:
         searchPosition = Position(masterQueenPosition.x, masterQueenPosition.y) # Reset search position
         while(searchPosition.x > 0 and searchPosition.y > 0):
             if(self.chromosome.queenPositions[searchPosition.x] == searchPosition.y):
-                collisionCount = collisionCount + 1
+                # Check that searchPosition is different from masterQueenPosition
+                if((searchPosition.x == masterQueenPosition.x and searchPosition.y == masterQueenPosition.y) is False):
+                    collisionCount = collisionCount + 1
 
             searchPosition.x = searchPosition.x - 1
             searchPosition.y = searchPosition.y - 1
@@ -80,7 +87,9 @@ class Fitness:
         searchPosition = Position(masterQueenPosition.x, masterQueenPosition.y) # Reset search position
         while(searchPosition.x > 0 and searchPosition.y < self.chromosome.boardHeight()):
             if(self.chromosome.queenPositions[searchPosition.x] == searchPosition.y):
-                collisionCount = collisionCount + 1
+                # Check that searchPosition is different from masterQueenPosition
+                if((searchPosition.x == masterQueenPosition.x and searchPosition.y == masterQueenPosition.y) is False):
+                    collisionCount = collisionCount + 1
 
             searchPosition.x = searchPosition.x - 1
             searchPosition.y = searchPosition.y + 1
@@ -89,7 +98,9 @@ class Fitness:
         searchPosition = Position(masterQueenPosition.x, masterQueenPosition.y) # Reset search position
         while(searchPosition.x < self.chromosome.boardLength() and searchPosition.y > 0):
             if(self.chromosome.queenPositions[searchPosition.x] == searchPosition.y):
-                collisionCount = collisionCount + 1
+                # Check that searchPosition is different from masterQueenPosition
+                if((searchPosition.x == masterQueenPosition.x and searchPosition.y == masterQueenPosition.y) is False):
+                    collisionCount = collisionCount + 1
 
             searchPosition.x = searchPosition.x + 1
             searchPosition.y = searchPosition.y - 1
