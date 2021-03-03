@@ -146,12 +146,19 @@ class Population:
             c = self.crossover(pair)
             children.append(c[0])
             children.append(c[1])
-        print(children)
+        self.mutate(children)
 
         # Generate mutations
     
-    def mutate(self):
-        
+    def mutate(self, children):
+        mutateProbability = 10 # Mutatation probability in percent
+        for child in children:
+            for i in range(len(child)):
+                random = randint(0,100)
+                if (random <= mutateProbability):
+                    child[i] = randint(0, 7)
+        return children
+
     
     # Finds mating pairs. The number of mating pairs found is self.mateCount
     def findMatingPairs(self):
