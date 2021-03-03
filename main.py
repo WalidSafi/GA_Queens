@@ -4,7 +4,7 @@ from collections import namedtuple
 class Chromosome:
     def __init__(self, value=None):
         if (value is None):
-            self.queenPositions = [randint(0, 3) for i in range(4)] # Array of 4 random integers
+            self.queenPositions = [randint(0, 7) for i in range(8)] # Array of 4 random integers
         else:
             self.queenPositions = value
     
@@ -130,7 +130,8 @@ class Runner:
         self.population = Population(10) # Array of 8 random chromosomes
         print(self.population)
 
-c = Chromosome()
-print(c)
-f = Fitness(c)
-print(f.getFitness())
+for i in range(1):
+    c = Chromosome([0,6,3,5,7,1,4,2])
+    print(c)
+    f = Fitness(c)
+    print("Fitness:", f.getFitness())
