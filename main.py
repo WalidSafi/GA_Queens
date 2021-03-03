@@ -122,6 +122,7 @@ class Population:
     def __init__(self, size):
         self.generateInitialPopulation(size)
         self.computeProbabilityOfBeingChosen()
+        self.populationSize = size
         self.mateCount = int(size / 2) # The number of chromosomes that should mate
 
     def generateInitialPopulation(self, size):
@@ -143,7 +144,7 @@ class Population:
         mates = []
         for i in range(self.mateCount):
             mates.append((sortedPopulation[i], self.findMate(sortedPopulation)))
-        print(mates)
+        return mates
 
 
     # Finds an individual mating pair
@@ -157,6 +158,22 @@ class Population:
             if (random >= start and random <= end):
                 return mate
             start = end
+
+    def crossover(self, pairs):
+        split = randint(0, self.populationSize - 1)
+        inverse = pairs[0].boardLength() - split
+
+        FirstHalf = pairs[0].queenPositions[:split]
+        SecondHalf = pairs[1].queenPositions[split:]
+        child_one = FirstHalf + SecondHalf
+
+        FirstHalf = pairs[1].queenPositions[:inverse]
+        SecondHalf = pairs[0].queenPositions[inverse:]
+
+        child_two = FirstHalf + SecondHalf
+
+        print(child_one)
+        print(child_two)
 
 
    # Makes Population class printable to console
@@ -175,4 +192,5 @@ class Runner:
 #     # f = Fitness(c)
 #     # print("Fitness: ", f.getFitness())
 p = Population(10)
-p.findMatingPairs()
+pairs = p.findMatingPairs()
+p.crossover(pairs[0])
