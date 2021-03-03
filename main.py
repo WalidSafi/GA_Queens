@@ -140,6 +140,7 @@ class Population:
     
     # Make the chromosomes mate
     def mate(self):
+        self.computeProbabilityOfBeingChosen()
         matingPairs = self.findMatingPairs()
         children = []
         for pair in matingPairs: 
@@ -167,7 +168,8 @@ class Population:
     
     # Finds mating pairs. The number of mating pairs found is self.mateCount
     def findMatingPairs(self):
-        sortedPopulation = sorted(self.population, key= lambda x: x.probabilityOfBeingChosen, reverse=True)
+        pop = self.population[:]
+        sortedPopulation = sorted(pop, key=lambda student: student.fitness, reverse=True) 
         mates = []
         for i in range(self.mateCount):
             mates.append((sortedPopulation[i], self.findMate(sortedPopulation)))
@@ -221,3 +223,6 @@ p = Population(10)
 print(p.population)
 p.mate()
 print(p.population)
+for i in range (10000):
+    p.mate()
+    print(p.population)
