@@ -121,6 +121,8 @@ class Position:
 class Population:
     def __init__(self, size):
         self.generateInitialPopulation(size)
+        self.computeProbabilityOfBeingChosen()
+        self.mateCount = int(size / 2) # The number of chromosomes that should mate
 
     def generateInitialPopulation(self, size):
         self.population = [Chromosome() for i in range(size)] # Array of 8 random chromosomes
@@ -134,8 +136,28 @@ class Population:
         for chromosome in self.population:
             # Probability of being chosen = (fitness/fitnessSum) * 100
             chromosome.probabilityOfBeingChosen = (chromosome.fitness / fitnessSum) * 100
-            print("probability  ")
-            print(chromosome.probabilityOfBeingChosen)
+    
+    # Finds mating pairs. The number of mating pairs found is self.mateCount
+    def findMatingPairs(self):
+        sortedPopulation = sorted(self.population, key= lambda x: x.probabilityOfBeingChosen, reverse=True)
+        mates = []
+        for i in range(self.mateCount):
+            mates.append((sortedPopulation[i], self.findMate(sortedPopulation)))
+        print(mates)
+
+
+    # Finds an individual mating pair
+    def findMate(self, sortedPopulation):
+        # Sort population by probability of mating
+        random = randint(0, 100)
+        start = 0
+        end = 0
+        for mate in sortedPopulation:
+            end = start + mate.probabilityOfBeingChosen
+            if (random >= start and random <= end):
+                return mate
+            start = end
+
 
    # Makes Population class printable to console
     def __repr__(self):
@@ -152,5 +174,5 @@ class Runner:
 #     print(c)
 #     # f = Fitness(c)
 #     # print("Fitness: ", f.getFitness())
-p = Population(4)
-p.computeProbabilityOfBeingChosen()
+p = Population(10)
+p.findMatingPairs()
