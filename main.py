@@ -7,6 +7,11 @@ class Chromosome:
             self.queenPositions = [randint(0, 7) for i in range(8)] # Array of 4 random integers
         else:
             self.queenPositions = value
+        self.probabilityOfBeingChosen = 0
+        
+        # Compute fitness
+        f = Fitness(self)     
+        self.fitness = f.getFitness()
     
     # Returns the horizontal length of the board
     # Note: It is assumed that the board is square
@@ -119,6 +124,18 @@ class Population:
 
     def generateInitialPopulation(self, size):
         self.population = [Chromosome() for i in range(size)] # Array of 8 random chromosomes
+    
+    def computeProbabilityOfBeingChosen(self):
+        fitnessSum = 0 # Sum of all the fitness values in the population
+        for chromosome in self.population:
+            fitnessSum = fitnessSum + chromosome.fitness
+        
+        # Set the probablity of being chosen for each chromosome
+        for chromosome in self.population:
+            # Probability of being chosen = (fitness/fitnessSum) * 100
+            chromosome.probabilityOfBeingChosen = (chromosome.fitness / fitnessSum) * 100
+            print("probability  ")
+            print(chromosome.probabilityOfBeingChosen)
 
    # Makes Population class printable to console
     def __repr__(self):
@@ -130,8 +147,10 @@ class Runner:
         self.population = Population(10) # Array of 8 random chromosomes
         print(self.population)
 
-for i in range(1):
-    c = Chromosome([0,6,3,5,7,1,4,2])
-    print(c)
-    f = Fitness(c)
-    print("Fitness:", f.getFitness())
+# for i in range(10000):
+#     c = Chromosome()
+#     print(c)
+#     # f = Fitness(c)
+#     # print("Fitness: ", f.getFitness())
+p = Population(4)
+p.computeProbabilityOfBeingChosen()
