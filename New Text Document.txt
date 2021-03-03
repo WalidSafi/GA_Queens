@@ -1,0 +1,54 @@
+class Crossover:
+
+    def __init__(self, p1, p2):
+        self.p1 = p1
+        self.p2 = p2
+        self.crossoverOffspring(p1,p2)
+
+    def crossoverOffspring(self, p1, p2):
+
+        print(p1)
+        print(p2)
+
+        #randomly generating index to split parents
+        index = 3 #randint(0,7)
+        opp = 7 - index
+
+        #Split parents
+        first_half = p1[:index]
+        second_half = p2[index:]
+        #Create Offspring
+        child_one = first_half + second_half
+
+        #Split parents
+        first_half = p2[:opp]
+        second_half = p1[opp:]
+        #Create Offspring
+        child_two = first_half + second_half
+
+        print(child_one)
+        print(child_two)
+
+class Mutation:
+
+    def __init__(self, c):
+        self.chromosome = c
+        self.mutate(c)
+
+    def mutate(self, c):
+
+        #generate mutational swap index
+        Index = 2 #randint(0, 7)
+        opp = 7 - Index
+
+        mutated = c
+
+        print("Index: " + str(Index))
+        print("Opposite: " + str(opp))
+
+        #Swap Indexes
+        temp = mutated[Index]
+        mutated[Index] = mutated[opp]
+        mutated[opp] = temp
+
+        print(mutated)
