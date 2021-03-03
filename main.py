@@ -138,6 +138,21 @@ class Population:
             # Probability of being chosen = (fitness/fitnessSum) * 100
             chromosome.probabilityOfBeingChosen = (chromosome.fitness / fitnessSum) * 100
     
+    # Make the chromosomes mate
+    def mate(self):
+        matingPairs = self.findMatingPairs()
+        children = []
+        for pair in matingPairs: 
+            c = self.crossover(pair)
+            children.append(c[0])
+            children.append(c[1])
+        print(children)
+
+        # Generate mutations
+    
+    def mutate(self):
+        
+    
     # Finds mating pairs. The number of mating pairs found is self.mateCount
     def findMatingPairs(self):
         sortedPopulation = sorted(self.population, key= lambda x: x.probabilityOfBeingChosen, reverse=True)
@@ -172,8 +187,7 @@ class Population:
 
         child_two = FirstHalf + SecondHalf
 
-        print(child_one)
-        print(child_two)
+        return (child_one, child_two)
 
 
    # Makes Population class printable to console
@@ -192,5 +206,4 @@ class Runner:
 #     # f = Fitness(c)
 #     # print("Fitness: ", f.getFitness())
 p = Population(10)
-pairs = p.findMatingPairs()
-p.crossover(pairs[0])
+p.mate()
